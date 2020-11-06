@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - master
+
+defaults:
+  run:
+    working-directory: 'ansible-wireguard-proxy'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+        with:
+          path: 'ansible-wireguard-proxy'
+
+      - name: Install Python3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: pip3 install ansible-base
+
+      - name: Run Ansible
+        run: ansible-playbook -i inventory/ playbook.yml
+
+      - name: Commit & push new version
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "Github Actions"
+          git add .
+          git commit -m "New build"
+          git push
