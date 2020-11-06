@@ -1,0 +1,18 @@
+---
+- name: Generate Proxy PAC file
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+
+  tasks:
+
+    - name: Create output file
+      file:
+        state: directory
+        dest: "{{ playbook_dir }}/output"
+
+    - name: Create template
+      template:
+        src: proxy.pac.j2
+        dest: "{{ playbook_dir }}/output/proxy.pac"

@@ -1,0 +1,10 @@
+#jinja2:trim_blocks: False
+function FindProxyForURL(url, host) {
+  {% for proxy in proxies -%}
+    {% if loop.first %}if{% else %}else if {% endif %} (shExpMatch(host, "*.{{ proxy.tld }}"))
+    return {% for relay in proxy.relays -%}
+    "SOCKS5 {% if proxy.hostname is defined %}{{ proxy.hostname }}{% else %}{{ proxy.tld }}{% endif %}{{ relay }}-wg.socks5.mullvad.net:1080{% if not loop.last %};{% endif %}"{% if not loop.last %} + {% else %} ; {% endif %}{% endfor %}
+  {% endfor -%}
+else
+  return "DIRECT";
+}
