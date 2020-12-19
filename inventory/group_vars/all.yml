@@ -27,7 +27,5 @@ proxies:
     tld: co.uk
     hostname: gb
     relays:
-      - 22
-      - 23
-      - 24
-      - 17
+      - 31
+      - 32
