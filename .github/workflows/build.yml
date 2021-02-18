@@ -22,8 +22,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Ansible
-        run: pip3 install ansible-base
+      - name: Install Ansible 2.9.x
+        run: pip3 install ansible jmespath
 
       - name: Run Ansible
         run: ansible-playbook -i inventory/ playbook.yml

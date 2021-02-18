@@ -1,5 +1,5 @@
 ---
-- name: Generate Proxy PAC file
+- name: Generate Proxy PAC files
   hosts: localhost
   connection: local
   gather_facts: false
@@ -12,7 +12,21 @@
         state: directory
         dest: "{{ playbook_dir }}/output"
 
-    - name: Create template
+    - name: Return hosts from Mullvad.net
+      uri:
+        url: https://api.mullvad.net/app/v1/relays
+        method: GET
+        body_format: json
+      register: hosts_curl
+
+    - name: Set fact to convert hosts to pretty JSON
+      set_fact:
+        hosts_json: "{{ hosts_curl.json | json_query('wireguard.relays[].hostname') }}"
+
+    - name: Create templates
       template:
-        src: proxy.pac.j2
-        dest: "{{ playbook_dir }}/output/proxy.pac"
+        src: "{{ item }}.pac.j2"
+        dest: "{{ playbook_dir }}/output/{{ item }}.pac"
+      loop:
+        - proxy
+        - random

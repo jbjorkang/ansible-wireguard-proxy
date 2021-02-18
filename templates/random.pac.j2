@@ -1,0 +1,9 @@
+#jinja2:trim_blocks: False
+var hosts = "{% for item in hosts_json %}{% if 'se' in item.split('-')[0] %}{{ item | replace('wireguard', 'wg.socks5.mullvad.net:1080') }} {% endif %}{% endfor %}";
+
+function FindProxyForURL(url, host)
+{
+    var hostsArray = hosts.split(" ");
+    var randomIndex = Math.floor((Math.random() * hostsArray.length));
+    return "PROXY " + hostsArray[randomIndex] + "; DIRECT";
+}
