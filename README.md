@@ -1,5 +1,7 @@
 # ansible-wireguard-proxy
 
+Use with caution, not updated for a long time (I don't use this anymore)
+
 Set up a Proxy Auto-Configuration file for use with Mullvad Wireguard SOCKS5 relays.
 
 This allows you to specify which TLDs should go through which relays, useful if you want to be able to view certain region locked websites through specific relays.
